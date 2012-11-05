@@ -44,7 +44,7 @@ group :development do
   gem 'quiet_assets'
   gem 'twitter-bootstrap-rails'
 end
-
+gem 'acts-as-taggable-on', '~> 2.3.1'
 # alternatywa dla serwera Webrick
 gem 'thin'
 # To use ActiveModel has_secure_password

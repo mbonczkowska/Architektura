@@ -2,11 +2,15 @@ class SongsController < ApplicationController
   # GET /songs
   # GET /songs.json
   def index
-    @songs = Song.all
+    @songs = Song.order('created_at DESC')
+
+  #    .text_search(params[:query])
+   # .page(params[:page]).per_page(4)
+    # respond_with(@songs)
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @songs }
+     format.html # index.html.erb
+     format.json { render json: @songs }
     end
   end
 

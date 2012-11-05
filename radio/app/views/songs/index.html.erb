@@ -1,11 +1,15 @@
 <%- model_class = Song -%>
 <div class="page-header">
  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
-<!--<h1>Songs</h1>-->
 </div>
+<%= form_tag songs_path, method: :get, id: "songs_search", class: "form-inline" do %>
+  <%= text_field_tag :query, params[:query] %>
+  <%= submit_tag "Search", name: nil, class: "btn" %>
+<% end %>
 <table class="table table-striped">
      <thead>
   <tr>
+    <th><%= model_class.human_attribute_name(:id) %></th>
     <th><%= model_class.human_attribute_name(:title) %></th>
     <th><%= model_class.human_attribute_name(:author) %></th>
     <th><%= model_class.human_attribute_name(:album) %></th>
@@ -21,6 +25,7 @@
 
 <% @songs.each do |song| %>
   <tr>
+    <th><%= song.id %></th>
     <td><%= song.title %></td>
     <td><%= song.author %></td>
     <td><%= song.album %></td>
