@@ -1,0 +1,52 @@
+<%- model_class = Song -%>
+<div class="page-header">
+ <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+<!--<h1>Songs</h1>-->
+</div>
+<table class="table table-striped">
+     <thead>
+  <tr>
+    <th><%= model_class.human_attribute_name(:title) %></th>
+    <th><%= model_class.human_attribute_name(:author) %></th>
+    <th><%= model_class.human_attribute_name(:album) %></th>
+    <th><%= model_class.human_attribute_name(:year) %></th>
+    <th><%= model_class.human_attribute_name(:length) %></th>
+    <th><%=t '.actions', :default => t("helpers.actions") %></th>
+  
+ <!--  <th>inne dane w naglowku</th>>-->
+
+  </tr>
+ </thead>
+  <tbody>
+
+<% @songs.each do |song| %>
+  <tr>
+    <td><%= song.title %></td>
+    <td><%= song.author %></td>
+    <td><%= song.album %></td>
+    <td><%= song.year %></td>
+    <td><%= song.length %></td>
+<!--    <td><%=l song.created_at %></td> data utowrzenia song-->
+<td> <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_song_path(song), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      song_path(song),
+                      :method => :delete,
+                 
+                      :class => 'btn btn-mini btn-danger' %>
+</td>
+<!--    <td><%= link_to 'Show', song %></td>
+    <td><%= link_to 'Edit', edit_song_path(song) %></td>
+    <td><%= link_to 'Destroy', song, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+  </tr>
+<% end %>
+ </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_song_path,
+            :class => 'btn btn-primary' %>
+
+<!--<br />
+
+<%= link_to 'New Song', new_song_path %>-->
