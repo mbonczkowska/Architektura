@@ -68,3 +68,5 @@ module Radio
   end
 end
 
+#ActsAsTaggableOn.delimiter = ' ' # use space as delimiter
+

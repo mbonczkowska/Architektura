@@ -2,56 +2,64 @@
 <div class="page-header">
  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
+
 <%= form_tag songs_path, method: :get, id: "songs_search", class: "form-inline" do %>
   <%= text_field_tag :query, params[:query] %>
   <%= submit_tag "Search", name: nil, class: "btn" %>
 <% end %>
+
+<div id="tag_cloud">
+  <% tag_cloud Song.tag_counts, %w[s m l] do |tag, css_class| %>
+    <%= link_to tag.name, tag_path(tag.name), class: css_class %>
+  <% end %>
+</div>
+
+
 <table class="table table-striped">
      <thead>
   <tr>
+  
     <th><%= model_class.human_attribute_name(:id) %></th>
     <th><%= model_class.human_attribute_name(:title) %></th>
     <th><%= model_class.human_attribute_name(:author) %></th>
     <th><%= model_class.human_attribute_name(:album) %></th>
     <th><%= model_class.human_attribute_name(:year) %></th>
     <th><%= model_class.human_attribute_name(:length) %></th>
+    <th><%= model_class.human_attribute_name(:tags) %></th>
+
     <th><%=t '.actions', :default => t("helpers.actions") %></th>
   
- <!--  <th>inne dane w naglowku</th>>-->
-
+ 
   </tr>
  </thead>
   <tbody>
 
 <% @songs.each do |song| %>
   <tr>
+
     <th><%= song.id %></th>
+
     <td><%= song.title %></td>
     <td><%= song.author %></td>
     <td><%= song.album %></td>
     <td><%= song.year %></td>
     <td><%= song.length %></td>
-<!--    <td><%=l song.created_at %></td> data utowrzenia song-->
-<td> <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_song_path(song), :class => 'btn btn-mini' %>
+    <td><%= song.tag_list %></td>
+
+
+    <td> <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_song_path(song), :class => 'btn btn-mini' %> 
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       song_path(song),
                       :method => :delete,
-                 
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },                 
                       :class => 'btn btn-mini btn-danger' %>
 </td>
-<!--    <td><%= link_to 'Show', song %></td>
-    <td><%= link_to 'Edit', edit_song_path(song) %></td>
-    <td><%= link_to 'Destroy', song, method: :delete, data: { confirm: 'Are you sure?' } %></td> bez guziczkow :(( -->
+
   </tr>
 <% end %>
  </tbody>
 </table>
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_song_path,
-            :class => 'btn btn-primary' %>
 
-<!--<br />
-
-<%= link_to 'New Song', new_song_path %> bez guziczka -->
+<p><%= link_to t('.new', default: t("helpers.links.new")), new_song_path, :class => 'btn btn-primary' %></p>

@@ -1,8 +1,8 @@
 class Song < ActiveRecord::Base
 
-
-  attr_accessible :album, :author, :length, :title, :year
-#  acts_as_taggable_on :tags
+  attr_accessible :album, :author, :length, :title, :year, :tag_list,
+     :cover, :remove_cover, :cover_cache, :remote_cover_url 
+  acts_as_taggable_on :tags
 end
 def self.text_search(query)
   if query.present?
