@@ -3,12 +3,7 @@
  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
 
-
-<%= form_tag songs_path, :method =>'get',id: "fortunes_search", class: "form-inline"  do %>
-  <%= text_field_tag :title, params[:search] %>
-  <%= submit_tag "Search", :name => nil %>
-<% end %>
-
+<%= form_tag songs_path, method: :get, id: "songs_search", class: "form-inline
 <div id="tag_cloud">
   <% tag_cloud Song.tag_counts, %w[s m l] do |tag, css_class| %>
     <%= link_to tag.name, tag_path(tag.name), class: css_class %>
@@ -45,7 +40,7 @@
     <td><%= song.author %></td>
     <td><%= song.album %></td>
     <td><%= song.year %></td>
-    <td><%= song.length_min %></td>
+    <td><%= song.length %></td>
     <td><%= song.tag_list %></td>
 
 

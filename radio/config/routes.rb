@@ -1,12 +1,13 @@
 Radio::Application.routes.draw do 
- 
-  resources :songs do
+   resources :songs do
   member do
       get 'crop'
     end
   end
-root :to => 'songs#index'
+
+
 get 'tags/:tag', to: 'songs#index', as: :tag
+root :to => 'songs#index'
 end
 
   # The priority is based upon order of creation:

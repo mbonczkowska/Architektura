@@ -3,12 +3,16 @@ class SongsController < ApplicationController
   # GET /songs.json
  
 def index
+ 
+  
+   @songs = Song.search(params[:search])
+ 
   if params[:tag]
     @songs = Song.tagged_with(params[:tag])
   else
     @songs = Song.all
   end
-
+    
      respond_to do |format|
      format.html # index.html.erb
      format.json { render json: @songs }
@@ -36,7 +40,9 @@ end
       format.json { render json: @song }
     end
   end
-
+ def crop
+    @song = Song.find(params[:id])
+  end
   # GET /songs/1/edit
   def edit
     @song = Song.find(params[:id])
