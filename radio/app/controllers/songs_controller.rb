@@ -8,14 +8,13 @@ def index
   if params[:tag]
     @songs = Song.tagged_with(params[:tag])
   else
+   
+    if params[:title]
+      @songs = Song.search(params[:title])
+    else
     @songs = Song.all
+    end
   end
-     if params[:title]
-    @songs = Song.search(params[:title])
-  else
-    @songs = Song.all
-  end
-
 
      respond_to do |format|
      format.html # index.html.erb
