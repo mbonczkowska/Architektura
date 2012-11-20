@@ -1,4 +1,6 @@
 Radio::Application.routes.draw do 
+  devise_for :users
+
    resources :songs do
   member do
       get 'crop'

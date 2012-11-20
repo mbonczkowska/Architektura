@@ -4,15 +4,19 @@ class SongsController < ApplicationController
  
 def index
  
-  
-   @songs = Song.search(params[:search])
- 
+    
   if params[:tag]
     @songs = Song.tagged_with(params[:tag])
   else
     @songs = Song.all
   end
-    
+     if params[:title]
+    @songs = Song.search(params[:title])
+  else
+    @songs = Song.all
+  end
+
+
      respond_to do |format|
      format.html # index.html.erb
      format.json { render json: @songs }

@@ -4,9 +4,10 @@
   <b>Tags:</b>
   <%= @song.tag_list %>
 </p>
-<div class="cover">
+<p>
+  <b>Cover:</b>
   <%= image_tag @song.cover_url if @song.cover? %>
-</div> 
+</p> 
 <p>
   <b>Title:</b>
   <%= @song.title %>
