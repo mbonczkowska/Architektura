@@ -3,7 +3,10 @@
 
 <div class="control-group string optional">
     <div class="controls">
-
+    <% if @song.cover? %>
+      <%= image_tag @song.cover_url(:thumb) %>
+      <%= link_to t('.crop', default: t("helpers.links.tocrop")), crop_book_path(@song), class: 'btn' %>
+    <% end %>
     </div>
   </div>
   <% unless @song.new_record? %>

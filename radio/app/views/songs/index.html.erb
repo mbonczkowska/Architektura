@@ -23,7 +23,7 @@
   
     <th><%= model_class.human_attribute_name(:id) %></th>
     <th><%= model_class.human_attribute_name(:cover) %></th>
-    <th><%= model_class.human_attribute_name(:title) %></th>
+    <th><%= link_to "Title" %></th>
     <th><%= model_class.human_attribute_name(:author) %></th>
     <th><%= model_class.human_attribute_name(:album) %></th>
     <th><%= model_class.human_attribute_name(:year) %></th>
@@ -41,12 +41,12 @@
   <tr>
 
     <th><%= song.id %></th>
-    <td><%= song.cover %></td>    
+    <td><%= image_tag(song.cover_url(:thumb)) if song.cover? %></td>    
     <td><%= song.title %></td>
     <td><%= song.author %></td>
     <td><%= song.album %></td>
     <td><%= song.year %></td>
-    <td><%= song.length %></td>
+    <td><%= song.length_min %></td>
     <td><%= song.tag_list %></td>
 
 
