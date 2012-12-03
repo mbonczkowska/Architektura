@@ -41,7 +41,7 @@
   <tr>
 
     <th><%= song.id %></th>
-    <td><%= image_tag(song.cover_url(:thumb)) if song.cover? %></td>    
+    <td><%= image_tag  song.cover.url %></td>    
     <td><%= song.title %></td>
     <td><%= song.author %></td>
     <td><%= song.album %></td>

@@ -11,17 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121119220644) do
+ActiveRecord::Schema.define(:version => 20121203205715) do
 
   create_table "songs", :force => true do |t|
-    t.text     "title"
+    t.string   "title"
     t.string   "author"
     t.string   "album"
     t.integer  "year"
     t.integer  "length"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.string   "cover"
+    t.string   "cover_file_name"
+    t.string   "cover_content_type"
+    t.integer  "cover_file_size"
+    t.datetime "cover_updated_at"
   end
 
   create_table "taggings", :force => true do |t|

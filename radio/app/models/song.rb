@@ -4,6 +4,7 @@ class Song < ActiveRecord::Base
   attr_accessible :album, :author, :length, :length_min, :title, :year, :tag_list,
      :cover, :remove_cover, :cover_cache, :remote_cover_url, :text_search 
   acts_as_taggable_on :tags
+  has_attached_file :cover
 
 def length_min
  t = Time.at(length).utc.strftime("%H:%M:%S") #=> "01:00:00"

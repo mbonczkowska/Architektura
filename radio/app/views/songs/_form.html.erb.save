@@ -1,0 +1,36 @@
+<%= simple_form_for(@song, :html => { :multipart => true }) do |f| %>
+  <%= f.error_notification %>
+
+<div class="control-group string optional">
+    <div class="controls">
+    <% if @song.cover? %>
+      <%= image_tag @song.cover_url(:thumb) %>
+      <%= link_to t('.crop', default: t("helpers.links.tocrop")), crop_book_path(@song), class: 'btn' %>
+    <% end %>
+    </div>
+  </div>
+  <% unless @song.new_record? %>
+    
+  <% end %>
+  
+  
+  <div class="form-inputs">
+    <%= f.input :tag_list, :label => "Tags (separated by spaces)" %>
+    <%=
+    <%= f.input :title %>
+    <%= f.input :author %>
+    <%= f.input :album %>
+    <%= f.input :year %>
+    <%= f.input :length %>
+  </div>
+ <div class="control-group string optional">
+    <div class="controls">
+    <% if @song.cover? %>
+      <%= image_tag @song.cover_url(:thumb) %>
+      <%= link_to t('.crop', default: t("helpers.links.tocrop")), crop_song_path(@song), class: 'btn' %>
+    <% end %>
+    </div>
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

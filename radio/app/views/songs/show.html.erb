@@ -1,3 +1,4 @@
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -6,7 +7,12 @@
 </p>
 <p>
   <b>Cover:</b>
-  <%= image_tag @song.cover_url if @song.cover? %>
+<% if @song.cover? %>
+  <%= image_tag @song.cover.url %>
+  <br />
+  <%= link_to @song.cover.url, @song.cover.url %>
+<% end %>
+
 </p> 
 <p>
   <b>Title:</b>
