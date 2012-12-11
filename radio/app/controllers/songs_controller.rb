@@ -66,7 +66,10 @@ end
       end
     end
   end
-
+  def create
+    auth_hash = request.env['omniauth.auth']
+    render :text => auth_hash.inspect
+  end
   # PUT /songs/1
   # PUT /songs/1.json
   def update
