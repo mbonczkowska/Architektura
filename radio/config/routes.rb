@@ -14,9 +14,9 @@ Radio::Application.routes.draw do
       get 'crop'
     end
   end
-get   '/login', :to => 'sessions#new', :as => :login
-match '/auth/:provider/callback', :to => 'sessions#create'
-match '/auth/failure', :to => 'sessions#failure'
+  get   '/login', :to => 'sessions#new', :as => :login
+  match '/auth/:provider/callback', :to => 'sessions#create'
+  match '/auth/failure', :to => 'sessions#failure'
 
 get 'tags/:tag', to: 'songs#index', as: :tag
 root :to => 'songs#index'
