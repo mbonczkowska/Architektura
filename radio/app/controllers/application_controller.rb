@@ -1,3 +1,10 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+private
+
+def current_man
+   @current_man = Man.find_by_id(session[:man_id])
+
+end
+helper_method :current_man
+  
 end

@@ -1,0 +1,1493 @@
+Connecting to database specified by database.yml
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (350.2ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (246.6ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (119.4ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateSongs (20121103002402)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (198.1ms)[0m  [1mCREATE TABLE "songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121103002402')
+  [1m[36m (235.9ms)[0m  [1mcommit transaction[0m
+Migrating to ActsAsTaggableOnMigration (20121106112927)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (198.8ms)[0m  [1mCREATE TABLE "tags" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255)) [0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "taggings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "tag_id" integer, "taggable_id" integer, "taggable_type" varchar(255), "tagger_id" integer, "tagger_type" varchar(255), "context" varchar(128), "created_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.2ms)[0m  CREATE INDEX "index_taggings_on_tag_id" ON "taggings" ("tag_id")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_tag_id')
+  [1m[36m (0.2ms)[0m  [1mCREATE INDEX "index_taggings_on_taggable_id_and_taggable_type_and_context" ON "taggings" ("taggable_id", "taggable_type", "context")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121106112927')
+  [1m[36m (236.8ms)[0m  [1mcommit transaction[0m
+Migrating to AddCoverToSongs (20121108192448)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (160.2ms)[0m  [1mALTER TABLE "songs" ADD "cover" varchar(255)[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121108192448')
+  [1m[36m (198.1ms)[0m  [1mcommit transaction[0m
+Migrating to DeviseCreateUsers (20121119220644)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (196.2ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255) DEFAULT '' NOT NULL, "encrypted_password" varchar(255) DEFAULT '' NOT NULL, "reset_password_token" varchar(255), "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar(255), "last_sign_in_ip" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("users")
+  [1m[36m (0.2ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("users")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_users_on_email')[0m
+  [1m[35m (0.1ms)[0m  CREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121119220644')[0m
+  [1m[35m (85.8ms)[0m  commit transaction
+Migrating to NewCoverToSongs (20121203205715)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (39.8ms)[0m  ALTER TABLE "songs" ADD "cover_file_name" varchar(255)
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "songs" ADD "cover_content_type" varchar(255)[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "songs" ADD "cover_file_size" integer
+  [1m[36m (0.2ms)[0m  [1mALTER TABLE "songs" ADD "cover_updated_at" datetime[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121203205715')
+  [1m[36m (234.8ms)[0m  [1mcommit transaction[0m
+Migrating to CreatePeople (20121211003643)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (79.3ms)[0m  [1mCREATE TABLE "people" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121211003643')
+  [1m[36m (158.6ms)[0m  [1mcommit transaction[0m
+Migrating to CreateAuthorizations (20121211003727)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (41.3ms)[0m  [1mCREATE TABLE "authorizations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "provider" varchar(255), "uid" varchar(255), "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121211003727')
+  [1m[36m (232.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (157.2ms)[0m  select sqlite_version(*)
+  [1m[36m (39.7ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("authorizations")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("people")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("songs")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_taggable_id_and_taggable_type_and_context')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_taggings_on_tag_id')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("tags")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_users_on_reset_password_token')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_users_on_email')[0m
+Connecting to database specified by database.yml
+
+
+Started GET "/" for 109.197.103.47 at 2013-01-02 16:45:41 +0100
+Processing by SongsController#index as HTML
+  [1m[36mSong Load (137.9ms)[0m  [1mSELECT "songs".* FROM "songs" [0m
+  [1m[35mActsAsTaggableOn::Tag Load (89.9ms)[0m  SELECT tags.*, taggings.tags_count AS count FROM "tags" JOIN (SELECT taggings.tag_id, COUNT(taggings.tag_id) AS tags_count FROM "taggings" INNER JOIN songs ON songs.id = taggings.taggable_id WHERE (taggings.taggable_type = 'Song' AND taggings.context = 'tags') AND (taggings.taggable_id IN(SELECT songs.id FROM "songs" )) GROUP BY taggings.tag_id HAVING COUNT(taggings.tag_id) > 0) AS taggings ON taggings.tag_id = tags.id
+  Rendered songs/index.html.erb within layouts/application (285.7ms)
+  Rendered shared/_navbar.html.erb (1.1ms)
+Compiled bootstrap_and_overrides.css  (1436ms)  (pid 4569)
+Compiled scaffold.css  (0ms)  (pid 4569)
+Compiled sessions.css  (6ms)  (pid 4569)
+Compiled songs.css  (7ms)  (pid 4569)
+Compiled application.css  (1936ms)  (pid 4569)
+Compiled jquery.js  (4ms)  (pid 4569)
+Compiled jquery_ujs.js  (0ms)  (pid 4569)
+Compiled twitter/bootstrap/bootstrap-transition.js  (0ms)  (pid 4569)
+Compiled twitter/bootstrap/bootstrap-alert.js  (0ms)  (pid 4569)
+Compiled twitter/bootstrap/bootstrap-modal.js  (0ms)  (pid 4569)
+Compiled twitter/bootstrap/bootstrap-dropdown.js  (0ms)  (pid 4569)
+Compiled twitter/bootstrap/bootstrap-scrollspy.js  (0ms)  (pid 4569)
+Compiled twitter/bootstrap/bootstrap-tab.js  (0ms)  (pid 4569)
+Compiled twitter/bootstrap/bootstrap-tooltip.js  (0ms)  (pid 4569)
+Compiled twitter/bootstrap/bootstrap-popover.js  (0ms)  (pid 4569)
+Compiled twitter/bootstrap/bootstrap-button.js  (0ms)  (pid 4569)
+Compiled twitter/bootstrap/bootstrap-collapse.js  (0ms)  (pid 4569)
+Compiled twitter/bootstrap/bootstrap-carousel.js  (0ms)  (pid 4569)
+Compiled twitter/bootstrap/bootstrap-typeahead.js  (0ms)  (pid 4569)
+Compiled twitter/bootstrap/bootstrap-affix.js  (0ms)  (pid 4569)
+Compiled twitter/bootstrap.js  (1727ms)  (pid 4569)
+Compiled bootstrap.js  (59ms)  (pid 4569)
+Compiled sessions.js  (1ms)  (pid 4569)
+Compiled songs.js  (1ms)  (pid 4569)
+Compiled application.js  (2495ms)  (pid 4569)
+Completed 200 OK in 5820ms (Views: 5497.8ms | ActiveRecord: 321.0ms)
+
+
+Started GET "/users/sign_up" for 109.197.103.47 at 2013-01-02 16:45:51 +0100
+Processing by Devise::RegistrationsController#new as HTML
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/devise-2.1.2/app/views/devise/shared/_links.erb (1.9ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/devise-2.1.2/app/views/devise/registrations/new.html.erb within layouts/application (7.9ms)
+  Rendered shared/_navbar.html.erb (0.4ms)
+Completed 200 OK in 203ms (Views: 62.1ms | ActiveRecord: 120.4ms)
+
+
+Started POST "/users" for 109.197.103.47 at 2013-01-02 16:46:05 +0100
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"W6Jr1UFEmdMHX1AKppXe9B532aodssJ83Aj9Al7Vukg=", "user"=>{"email"=>"magda1231@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (79.7ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'magda1231@gmail.com' LIMIT 1
+  [1m[36m (38.7ms)[0m  [1mrollback transaction[0m
+Completed 500 Internal Server Error in 290ms
+
+NoMethodError (undefined method `name' for #<User:0x000000072ba7f8>):
+  activemodel (3.2.8) lib/active_model/attribute_methods.rb:407:in `method_missing'
+  activerecord (3.2.8) lib/active_record/attribute_methods.rb:149:in `method_missing'
+  activemodel (3.2.8) lib/active_model/errors.rb:254:in `block in add_on_blank'
+  activemodel (3.2.8) lib/active_model/errors.rb:253:in `each'
+  activemodel (3.2.8) lib/active_model/errors.rb:253:in `add_on_blank'
+  activemodel (3.2.8) lib/active_model/validations/presence.rb:8:in `validate'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:310:in `_callback_before_83'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:484:in `_run__3503812626731289731__validate__856638001567352197__callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `__run_callback'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:385:in `_run_validate_callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  activemodel (3.2.8) lib/active_model/validations.rb:227:in `run_validations!'
+  activemodel (3.2.8) lib/active_model/validations/callbacks.rb:53:in `block in run_validations!'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:425:in `_run__3503812626731289731__validation__856638001567352197__callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `__run_callback'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:385:in `_run_validation_callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  activemodel (3.2.8) lib/active_model/validations/callbacks.rb:53:in `run_validations!'
+  activemodel (3.2.8) lib/active_model/validations.rb:194:in `valid?'
+  activerecord (3.2.8) lib/active_record/validations.rb:69:in `valid?'
+  activerecord (3.2.8) lib/active_record/validations.rb:77:in `perform_validations'
+  activerecord (3.2.8) lib/active_record/validations.rb:50:in `save'
+  activerecord (3.2.8) lib/active_record/attribute_methods/dirty.rb:22:in `save'
+  activerecord (3.2.8) lib/active_record/transactions.rb:241:in `block (2 levels) in save'
+  activerecord (3.2.8) lib/active_record/transactions.rb:295:in `block in with_transaction_returning_status'
+  activerecord (3.2.8) lib/active_record/connection_adapters/abstract/database_statements.rb:192:in `transaction'
+  activerecord (3.2.8) lib/active_record/transactions.rb:208:in `transaction'
+  activerecord (3.2.8) lib/active_record/transactions.rb:293:in `with_transaction_returning_status'
+  activerecord (3.2.8) lib/active_record/transactions.rb:241:in `block in save'
+  activerecord (3.2.8) lib/active_record/transactions.rb:252:in `rollback_active_record_state!'
+  activerecord (3.2.8) lib/active_record/transactions.rb:240:in `save'
+  devise (2.1.2) app/controllers/devise/registrations_controller.rb:15:in `create'
+  actionpack (3.2.8) lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+  actionpack (3.2.8) lib/abstract_controller/base.rb:167:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (3.2.8) lib/abstract_controller/callbacks.rb:18:in `block in process_action'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:436:in `_run__831972328081459045__process_action__3373773861098465433__callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `__run_callback'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:385:in `_run_process_action_callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (3.2.8) lib/abstract_controller/callbacks.rb:17:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/instrumentation.rb:30:in `block in process_action'
+  activesupport (3.2.8) lib/active_support/notifications.rb:123:in `block in instrument'
+  activesupport (3.2.8) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (3.2.8) lib/active_support/notifications.rb:123:in `instrument'
+  actionpack (3.2.8) lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/params_wrapper.rb:207:in `process_action'
+  activerecord (3.2.8) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (3.2.8) lib/abstract_controller/base.rb:121:in `process'
+  actionpack (3.2.8) lib/abstract_controller/rendering.rb:45:in `process'
+  actionpack (3.2.8) lib/action_controller/metal.rb:203:in `dispatch'
+  actionpack (3.2.8) lib/action_controller/metal/rack_delegation.rb:14:in `dispatch'
+  actionpack (3.2.8) lib/action_controller/metal.rb:246:in `block in action'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:73:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:73:in `dispatch'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:36:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/mapper.rb:42:in `call'
+  journey (1.0.4) lib/journey/router.rb:68:in `block in call'
+  journey (1.0.4) lib/journey/router.rb:56:in `each'
+  journey (1.0.4) lib/journey/router.rb:56:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:600:in `call'
+  omniauth (1.1.1) lib/omniauth/strategy.rb:177:in `call!'
+  omniauth (1.1.1) lib/omniauth/strategy.rb:157:in `call'
+  omniauth (1.1.1) lib/omniauth/builder.rb:48:in `call'
+  warden (1.2.1) lib/warden/manager.rb:35:in `block in call'
+  warden (1.2.1) lib/warden/manager.rb:34:in `catch'
+  warden (1.2.1) lib/warden/manager.rb:34:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+  rack (1.4.1) lib/rack/etag.rb:23:in `call'
+  rack (1.4.1) lib/rack/conditionalget.rb:35:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/head.rb:14:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/flash.rb:242:in `call'
+  rack (1.4.1) lib/rack/session/abstract/id.rb:205:in `context'
+  rack (1.4.1) lib/rack/session/abstract/id.rb:200:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/cookies.rb:339:in `call'
+  activerecord (3.2.8) lib/active_record/query_cache.rb:64:in `call'
+  activerecord (3.2.8) lib/active_record/connection_adapters/abstract/connection_pool.rb:473:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `_run__3825155672665037002__call__856638001567352197__callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `__run_callback'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:385:in `_run_call_callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (3.2.8) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/reloader.rb:65:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/remote_ip.rb:31:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/debug_exceptions.rb:16:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.8) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.8) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.0.1) lib/quiet_assets.rb:20:in `call_with_quiet_assets'
+  actionpack (3.2.8) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.8) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.8) lib/rails/engine.rb:479:in `call'
+  railties (3.2.8) lib/rails/application.rb:223:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.8) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.8) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.8) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.8) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.8) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.6ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.2ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (9.6ms)
+Connecting to database specified by database.yml
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (237.3ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (193.1ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (119.4ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateSongs (20121103002402)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (150.8ms)[0m  [1mCREATE TABLE "songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121103002402')
+  [1m[36m (50.2ms)[0m  [1mcommit transaction[0m
+Migrating to ActsAsTaggableOnMigration (20121106112927)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (41.6ms)[0m  [1mCREATE TABLE "tags" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255)) [0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "taggings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "tag_id" integer, "taggable_id" integer, "taggable_type" varchar(255), "tagger_id" integer, "tagger_type" varchar(255), "context" varchar(128), "created_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.1ms)[0m  CREATE INDEX "index_taggings_on_tag_id" ON "taggings" ("tag_id")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_tag_id')
+  [1m[36m (0.1ms)[0m  [1mCREATE INDEX "index_taggings_on_taggable_id_and_taggable_type_and_context" ON "taggings" ("taggable_id", "taggable_type", "context")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121106112927')
+  [1m[36m (233.5ms)[0m  [1mcommit transaction[0m
+Migrating to AddCoverToSongs (20121108192448)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (239.5ms)[0m  [1mALTER TABLE "songs" ADD "cover" varchar(255)[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121108192448')
+  [1m[36m (279.7ms)[0m  [1mcommit transaction[0m
+Migrating to NewCoverToSongs (20121203205715)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (239.4ms)[0m  [1mALTER TABLE "songs" ADD "cover_file_name" varchar(255)[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "songs" ADD "cover_content_type" varchar(255)
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "songs" ADD "cover_file_size" integer[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "songs" ADD "cover_updated_at" datetime
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121203205715')[0m
+  [1m[35m (278.7ms)[0m  commit transaction
+Migrating to CreatePeople (20121211003643)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (239.1ms)[0m  CREATE TABLE "people" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121211003643')[0m
+  [1m[35m (239.6ms)[0m  commit transaction
+Migrating to CreateAuthorizations (20121211003727)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (239.2ms)[0m  CREATE TABLE "authorizations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "provider" varchar(255), "uid" varchar(255), "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121211003727')[0m
+  [1m[35m (216.9ms)[0m  commit transaction
+  [1m[36m (160.2ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (119.8ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("authorizations")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("people")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("songs")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("taggings")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_taggings_on_taggable_id_and_taggable_type_and_context')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_tag_id')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("tags")[0m
+Connecting to database specified by database.yml
+  [1m[36m (119.5ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (119.9ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (157.9ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateAuthorizations (20121211003727)
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (279.9ms)[0m  DROP TABLE "authorizations"
+  [1m[36m (39.1ms)[0m  [1mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20121211003727'[0m
+  [1m[35m (240.0ms)[0m  commit transaction
+Migrating to CreatePeople (20121211003643)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (200.2ms)[0m  DROP TABLE "people"
+  [1m[36m (0.1ms)[0m  [1mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20121211003643'[0m
+  [1m[35m (278.8ms)[0m  commit transaction
+Migrating to NewCoverToSongs (20121203205715)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  CREATE TEMPORARY TABLE "altered_songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "cover" varchar(255), "cover_file_name" varchar(255), "cover_content_type" varchar(255), "cover_file_size" integer, "cover_updated_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("songs")[0m
+  [1m[35m (81.0ms)[0m  SELECT * FROM "songs"
+  [1m[36m (119.3ms)[0m  [1mDROP TABLE "songs"[0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "cover" varchar(255), "cover_content_type" varchar(255), "cover_file_size" integer, "cover_updated_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("altered_songs")[0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "altered_songs"
+  [1m[36m (0.1ms)[0m  [1mDROP TABLE "altered_songs"[0m
+  [1m[35m (0.1ms)[0m  CREATE TEMPORARY TABLE "altered_songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "cover" varchar(255), "cover_content_type" varchar(255), "cover_file_size" integer, "cover_updated_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("songs")[0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "songs"
+  [1m[36m (0.1ms)[0m  [1mDROP TABLE "songs"[0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "cover" varchar(255), "cover_file_size" integer, "cover_updated_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("altered_songs")[0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "altered_songs"
+  [1m[36m (0.1ms)[0m  [1mDROP TABLE "altered_songs"[0m
+  [1m[35m (0.1ms)[0m  CREATE TEMPORARY TABLE "altered_songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "cover" varchar(255), "cover_file_size" integer, "cover_updated_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("songs")[0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "songs"
+  [1m[36m (0.1ms)[0m  [1mDROP TABLE "songs"[0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "cover" varchar(255), "cover_updated_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("altered_songs")[0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "altered_songs"
+  [1m[36m (0.1ms)[0m  [1mDROP TABLE "altered_songs"[0m
+  [1m[35m (0.1ms)[0m  CREATE TEMPORARY TABLE "altered_songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "cover" varchar(255), "cover_updated_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("songs")[0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "songs"
+  [1m[36m (0.1ms)[0m  [1mDROP TABLE "songs"[0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "cover" varchar(255)) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("altered_songs")[0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "altered_songs"
+  [1m[36m (0.1ms)[0m  [1mDROP TABLE "altered_songs"[0m
+  [1m[35m (0.1ms)[0m  DELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20121203205715'
+  [1m[36m (231.3ms)[0m  [1mcommit transaction[0m
+Migrating to AddCoverToSongs (20121108192448)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.2ms)[0m  [1mCREATE TEMPORARY TABLE "altered_songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "cover" varchar(255)) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("songs")
+  [1m[36m (78.3ms)[0m  [1mSELECT * FROM "songs"[0m
+  [1m[35m (79.6ms)[0m  DROP TABLE "songs"
+  [1m[36m (0.1ms)[0m  [1mCREATE TABLE "songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("altered_songs")
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "altered_songs"[0m
+  [1m[35m (0.1ms)[0m  DROP TABLE "altered_songs"
+  [1m[36m (0.1ms)[0m  [1mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20121108192448'[0m
+  [1m[35m (234.1ms)[0m  commit transaction
+Migrating to ActsAsTaggableOnMigration (20121106112927)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (238.7ms)[0m  DROP TABLE "taggings"
+  [1m[36m (0.2ms)[0m  [1mDROP TABLE "tags"[0m
+  [1m[35m (0.1ms)[0m  DELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20121106112927'
+  [1m[36m (319.0ms)[0m  [1mcommit transaction[0m
+Migrating to CreateSongs (20121103002402)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (199.0ms)[0m  [1mDROP TABLE "songs"[0m
+  [1m[35m (0.1ms)[0m  DELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20121103002402'
+  [1m[36m (199.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (157.3ms)[0m  select sqlite_version(*)
+  [1m[36m (119.8ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Connecting to database specified by database.yml
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (360.1ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (399.7ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (119.3ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateSongs (20121103002402)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (82.6ms)[0m  [1mCREATE TABLE "songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121103002402')
+  [1m[36m (235.1ms)[0m  [1mcommit transaction[0m
+Migrating to ActsAsTaggableOnMigration (20121106112927)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (200.3ms)[0m  [1mCREATE TABLE "tags" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255)) [0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "taggings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "tag_id" integer, "taggable_id" integer, "taggable_type" varchar(255), "tagger_id" integer, "tagger_type" varchar(255), "context" varchar(128), "created_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.2ms)[0m  CREATE INDEX "index_taggings_on_tag_id" ON "taggings" ("tag_id")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_tag_id')
+  [1m[36m (0.2ms)[0m  [1mCREATE INDEX "index_taggings_on_taggable_id_and_taggable_type_and_context" ON "taggings" ("taggable_id", "taggable_type", "context")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121106112927')
+  [1m[36m (158.8ms)[0m  [1mcommit transaction[0m
+Migrating to AddCoverToSongs (20121108192448)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (199.2ms)[0m  [1mALTER TABLE "songs" ADD "cover" varchar(255)[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121108192448')
+  [1m[36m (315.7ms)[0m  [1mcommit transaction[0m
+Migrating to NewCoverToSongs (20121203205715)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (279.7ms)[0m  [1mALTER TABLE "songs" ADD "cover_file_name" varchar(255)[0m
+  [1m[35m (0.2ms)[0m  ALTER TABLE "songs" ADD "cover_content_type" varchar(255)
+  [1m[36m (0.2ms)[0m  [1mALTER TABLE "songs" ADD "cover_file_size" integer[0m
+  [1m[35m (0.2ms)[0m  ALTER TABLE "songs" ADD "cover_updated_at" datetime
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121203205715')[0m
+  [1m[35m (277.2ms)[0m  commit transaction
+Migrating to CreatePeople (20121211003643)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (239.0ms)[0m  CREATE TABLE "people" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121211003643')[0m
+  [1m[35m (278.9ms)[0m  commit transaction
+Migrating to CreateAuthorizations (20121211003727)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (278.9ms)[0m  CREATE TABLE "authorizations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "provider" varchar(255), "uid" varchar(255), "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121211003727')[0m
+  [1m[35m (239.0ms)[0m  commit transaction
+  [1m[36m (196.8ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (42.5ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("authorizations")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("people")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("songs")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("taggings")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_taggings_on_taggable_id_and_taggable_type_and_context')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_tag_id')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("tags")[0m
+Connecting to database specified by database.yml
+  [1m[36m (119.5ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateSongs (20121103002402)
+Migrating to ActsAsTaggableOnMigration (20121106112927)
+Migrating to AddCoverToSongs (20121108192448)
+Migrating to NewCoverToSongs (20121203205715)
+Migrating to CreatePeople (20121211003643)
+Migrating to CreateAuthorizations (20121211003727)
+  [1m[35m (120.8ms)[0m  select sqlite_version(*)
+  [1m[36m (119.8ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("authorizations")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("people")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("songs")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_taggable_id_and_taggable_type_and_context')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_taggings_on_tag_id')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("tags")
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+
+
+Started GET "/" for 109.197.103.47 at 2013-01-02 16:57:25 +0100
+Processing by SongsController#index as HTML
+  [1m[36mSong Load (149.2ms)[0m  [1mSELECT "songs".* FROM "songs" [0m
+  [1m[35mActsAsTaggableOn::Tag Load (119.6ms)[0m  SELECT tags.*, taggings.tags_count AS count FROM "tags" JOIN (SELECT taggings.tag_id, COUNT(taggings.tag_id) AS tags_count FROM "taggings" INNER JOIN songs ON songs.id = taggings.taggable_id WHERE (taggings.taggable_type = 'Song' AND taggings.context = 'tags') AND (taggings.taggable_id IN(SELECT songs.id FROM "songs" )) GROUP BY taggings.tag_id HAVING COUNT(taggings.tag_id) > 0) AS taggings ON taggings.tag_id = tags.id
+  Rendered songs/index.html.erb within layouts/application (341.6ms)
+  Rendered shared/_navbar.html.erb (0.8ms)
+Completed 200 OK in 865ms (Views: 471.4ms | ActiveRecord: 392.3ms)
+
+
+Started GET "/users/sign_up" for 109.197.103.47 at 2013-01-02 16:57:31 +0100
+Processing by Devise::RegistrationsController#new as HTML
+Completed 500 Internal Server Error in 1ms
+
+ActiveRecord::StatementInvalid (Could not find table 'users'):
+  activerecord (3.2.8) lib/active_record/connection_adapters/sqlite_adapter.rb:472:in `table_structure'
+  activerecord (3.2.8) lib/active_record/connection_adapters/sqlite_adapter.rb:346:in `columns'
+  activerecord (3.2.8) lib/active_record/connection_adapters/schema_cache.rb:12:in `block in initialize'
+  activerecord (3.2.8) lib/active_record/model_schema.rb:228:in `yield'
+  activerecord (3.2.8) lib/active_record/model_schema.rb:228:in `default'
+  activerecord (3.2.8) lib/active_record/model_schema.rb:228:in `columns'
+  activerecord (3.2.8) lib/active_record/model_schema.rb:243:in `column_defaults'
+  activerecord (3.2.8) lib/active_record/base.rb:482:in `initialize'
+  devise (2.1.2) lib/devise/models/registerable.rb:20:in `new'
+  devise (2.1.2) lib/devise/models/registerable.rb:20:in `new_with_session'
+  devise (2.1.2) app/controllers/devise/registrations_controller.rb:81:in `build_resource'
+  devise (2.1.2) app/controllers/devise/registrations_controller.rb:7:in `new'
+  actionpack (3.2.8) lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+  actionpack (3.2.8) lib/abstract_controller/base.rb:167:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (3.2.8) lib/abstract_controller/callbacks.rb:18:in `block in process_action'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:436:in `_run__4160682482722968996__process_action__830815155651932193__callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `__run_callback'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:385:in `_run_process_action_callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (3.2.8) lib/abstract_controller/callbacks.rb:17:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/instrumentation.rb:30:in `block in process_action'
+  activesupport (3.2.8) lib/active_support/notifications.rb:123:in `block in instrument'
+  activesupport (3.2.8) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (3.2.8) lib/active_support/notifications.rb:123:in `instrument'
+  actionpack (3.2.8) lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/params_wrapper.rb:207:in `process_action'
+  activerecord (3.2.8) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (3.2.8) lib/abstract_controller/base.rb:121:in `process'
+  actionpack (3.2.8) lib/abstract_controller/rendering.rb:45:in `process'
+  actionpack (3.2.8) lib/action_controller/metal.rb:203:in `dispatch'
+  actionpack (3.2.8) lib/action_controller/metal/rack_delegation.rb:14:in `dispatch'
+  actionpack (3.2.8) lib/action_controller/metal.rb:246:in `block in action'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:73:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:73:in `dispatch'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:36:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/mapper.rb:42:in `call'
+  journey (1.0.4) lib/journey/router.rb:68:in `block in call'
+  journey (1.0.4) lib/journey/router.rb:56:in `each'
+  journey (1.0.4) lib/journey/router.rb:56:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:600:in `call'
+  omniauth (1.1.1) lib/omniauth/strategy.rb:177:in `call!'
+  omniauth (1.1.1) lib/omniauth/strategy.rb:157:in `call'
+  omniauth (1.1.1) lib/omniauth/builder.rb:48:in `call'
+  warden (1.2.1) lib/warden/manager.rb:35:in `block in call'
+  warden (1.2.1) lib/warden/manager.rb:34:in `catch'
+  warden (1.2.1) lib/warden/manager.rb:34:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+  rack (1.4.1) lib/rack/etag.rb:23:in `call'
+  rack (1.4.1) lib/rack/conditionalget.rb:25:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/head.rb:14:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/flash.rb:242:in `call'
+  rack (1.4.1) lib/rack/session/abstract/id.rb:205:in `context'
+  rack (1.4.1) lib/rack/session/abstract/id.rb:200:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/cookies.rb:339:in `call'
+  activerecord (3.2.8) lib/active_record/query_cache.rb:64:in `call'
+  activerecord (3.2.8) lib/active_record/connection_adapters/abstract/connection_pool.rb:473:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `_run__3340351293337783494__call__4388661793234337175__callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `__run_callback'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:385:in `_run_call_callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (3.2.8) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/reloader.rb:65:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/remote_ip.rb:31:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/debug_exceptions.rb:16:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.8) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.8) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.0.1) lib/quiet_assets.rb:20:in `call_with_quiet_assets'
+  actionpack (3.2.8) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.8) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.8) lib/rails/engine.rb:479:in `call'
+  railties (3.2.8) lib/rails/application.rb:223:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.8) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.8) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.8) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.8) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.8) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.7ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (6.1ms)
+
+
+Started GET "/users/sign_in" for 109.197.103.47 at 2013-01-02 16:57:37 +0100
+Processing by Devise::SessionsController#new as HTML
+Completed 500 Internal Server Error in 1ms
+
+ActiveRecord::StatementInvalid (Could not find table 'users'):
+  activerecord (3.2.8) lib/active_record/connection_adapters/sqlite_adapter.rb:472:in `table_structure'
+  activerecord (3.2.8) lib/active_record/connection_adapters/sqlite_adapter.rb:346:in `columns'
+  activerecord (3.2.8) lib/active_record/connection_adapters/schema_cache.rb:12:in `block in initialize'
+  activerecord (3.2.8) lib/active_record/model_schema.rb:228:in `yield'
+  activerecord (3.2.8) lib/active_record/model_schema.rb:228:in `default'
+  activerecord (3.2.8) lib/active_record/model_schema.rb:228:in `columns'
+  activerecord (3.2.8) lib/active_record/model_schema.rb:243:in `column_defaults'
+  activerecord (3.2.8) lib/active_record/base.rb:482:in `initialize'
+  devise (2.1.2) app/controllers/devise_controller.rb:102:in `new'
+  devise (2.1.2) app/controllers/devise_controller.rb:102:in `build_resource'
+  devise (2.1.2) app/controllers/devise/sessions_controller.rb:8:in `new'
+  actionpack (3.2.8) lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+  actionpack (3.2.8) lib/abstract_controller/base.rb:167:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (3.2.8) lib/abstract_controller/callbacks.rb:18:in `block in process_action'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:447:in `_run__3514090606260449059__process_action__830815155651932193__callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `__run_callback'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:385:in `_run_process_action_callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (3.2.8) lib/abstract_controller/callbacks.rb:17:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/instrumentation.rb:30:in `block in process_action'
+  activesupport (3.2.8) lib/active_support/notifications.rb:123:in `block in instrument'
+  activesupport (3.2.8) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (3.2.8) lib/active_support/notifications.rb:123:in `instrument'
+  actionpack (3.2.8) lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/params_wrapper.rb:207:in `process_action'
+  activerecord (3.2.8) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (3.2.8) lib/abstract_controller/base.rb:121:in `process'
+  actionpack (3.2.8) lib/abstract_controller/rendering.rb:45:in `process'
+  actionpack (3.2.8) lib/action_controller/metal.rb:203:in `dispatch'
+  actionpack (3.2.8) lib/action_controller/metal/rack_delegation.rb:14:in `dispatch'
+  actionpack (3.2.8) lib/action_controller/metal.rb:246:in `block in action'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:73:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:73:in `dispatch'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:36:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/mapper.rb:42:in `call'
+  journey (1.0.4) lib/journey/router.rb:68:in `block in call'
+  journey (1.0.4) lib/journey/router.rb:56:in `each'
+  journey (1.0.4) lib/journey/router.rb:56:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:600:in `call'
+  omniauth (1.1.1) lib/omniauth/strategy.rb:177:in `call!'
+  omniauth (1.1.1) lib/omniauth/strategy.rb:157:in `call'
+  omniauth (1.1.1) lib/omniauth/builder.rb:48:in `call'
+  warden (1.2.1) lib/warden/manager.rb:35:in `block in call'
+  warden (1.2.1) lib/warden/manager.rb:34:in `catch'
+  warden (1.2.1) lib/warden/manager.rb:34:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+  rack (1.4.1) lib/rack/etag.rb:23:in `call'
+  rack (1.4.1) lib/rack/conditionalget.rb:25:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/head.rb:14:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/flash.rb:242:in `call'
+  rack (1.4.1) lib/rack/session/abstract/id.rb:205:in `context'
+  rack (1.4.1) lib/rack/session/abstract/id.rb:200:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/cookies.rb:339:in `call'
+  activerecord (3.2.8) lib/active_record/query_cache.rb:64:in `call'
+  activerecord (3.2.8) lib/active_record/connection_adapters/abstract/connection_pool.rb:473:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `_run__3340351293337783494__call__4388661793234337175__callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `__run_callback'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:385:in `_run_call_callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (3.2.8) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/reloader.rb:65:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/remote_ip.rb:31:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/debug_exceptions.rb:16:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.8) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.8) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.0.1) lib/quiet_assets.rb:20:in `call_with_quiet_assets'
+  actionpack (3.2.8) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.8) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.8) lib/rails/engine.rb:479:in `call'
+  railties (3.2.8) lib/rails/application.rb:223:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.8) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.8) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.8) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.8) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.8) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.4ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.0ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (8.9ms)
+Connecting to database specified by database.yml
+
+
+Started GET "/" for 109.197.103.47 at 2013-01-02 16:59:12 +0100
+Processing by SongsController#index as HTML
+  [1m[36mSong Load (79.2ms)[0m  [1mSELECT "songs".* FROM "songs" [0m
+  [1m[35mActsAsTaggableOn::Tag Load (119.7ms)[0m  SELECT tags.*, taggings.tags_count AS count FROM "tags" JOIN (SELECT taggings.tag_id, COUNT(taggings.tag_id) AS tags_count FROM "taggings" INNER JOIN songs ON songs.id = taggings.taggable_id WHERE (taggings.taggable_type = 'Song' AND taggings.context = 'tags') AND (taggings.taggable_id IN(SELECT songs.id FROM "songs" )) GROUP BY taggings.tag_id HAVING COUNT(taggings.tag_id) > 0) AS taggings ON taggings.tag_id = tags.id
+  Rendered songs/index.html.erb within layouts/application (123.6ms)
+  Rendered shared/_navbar.html.erb (11.8ms)
+Completed 200 OK in 388ms (Views: 188.0ms | ActiveRecord: 199.0ms)
+
+
+Started GET "/auth/facebook" for 109.197.103.47 at 2013-01-02 16:59:18 +0100
+
+
+Started GET "/users/sign_up" for 109.197.103.47 at 2013-01-02 16:59:26 +0100
+Processing by Devise::RegistrationsController#new as HTML
+Completed 500 Internal Server Error in 2ms
+
+ActiveRecord::StatementInvalid (Could not find table 'users'):
+  activerecord (3.2.8) lib/active_record/connection_adapters/sqlite_adapter.rb:472:in `table_structure'
+  activerecord (3.2.8) lib/active_record/connection_adapters/sqlite_adapter.rb:346:in `columns'
+  activerecord (3.2.8) lib/active_record/connection_adapters/schema_cache.rb:12:in `block in initialize'
+  activerecord (3.2.8) lib/active_record/model_schema.rb:228:in `yield'
+  activerecord (3.2.8) lib/active_record/model_schema.rb:228:in `default'
+  activerecord (3.2.8) lib/active_record/model_schema.rb:228:in `columns'
+  activerecord (3.2.8) lib/active_record/model_schema.rb:243:in `column_defaults'
+  activerecord (3.2.8) lib/active_record/base.rb:482:in `initialize'
+  devise (2.1.2) lib/devise/models/registerable.rb:20:in `new'
+  devise (2.1.2) lib/devise/models/registerable.rb:20:in `new_with_session'
+  devise (2.1.2) app/controllers/devise/registrations_controller.rb:81:in `build_resource'
+  devise (2.1.2) app/controllers/devise/registrations_controller.rb:7:in `new'
+  actionpack (3.2.8) lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+  actionpack (3.2.8) lib/abstract_controller/base.rb:167:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (3.2.8) lib/abstract_controller/callbacks.rb:18:in `block in process_action'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:436:in `_run__4160682482722968996__process_action__830815155651932193__callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `__run_callback'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:385:in `_run_process_action_callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (3.2.8) lib/abstract_controller/callbacks.rb:17:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/instrumentation.rb:30:in `block in process_action'
+  activesupport (3.2.8) lib/active_support/notifications.rb:123:in `block in instrument'
+  activesupport (3.2.8) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (3.2.8) lib/active_support/notifications.rb:123:in `instrument'
+  actionpack (3.2.8) lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/params_wrapper.rb:207:in `process_action'
+  activerecord (3.2.8) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (3.2.8) lib/abstract_controller/base.rb:121:in `process'
+  actionpack (3.2.8) lib/abstract_controller/rendering.rb:45:in `process'
+  actionpack (3.2.8) lib/action_controller/metal.rb:203:in `dispatch'
+  actionpack (3.2.8) lib/action_controller/metal/rack_delegation.rb:14:in `dispatch'
+  actionpack (3.2.8) lib/action_controller/metal.rb:246:in `block in action'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:73:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:73:in `dispatch'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:36:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/mapper.rb:42:in `call'
+  journey (1.0.4) lib/journey/router.rb:68:in `block in call'
+  journey (1.0.4) lib/journey/router.rb:56:in `each'
+  journey (1.0.4) lib/journey/router.rb:56:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:600:in `call'
+  omniauth (1.1.1) lib/omniauth/strategy.rb:177:in `call!'
+  omniauth (1.1.1) lib/omniauth/strategy.rb:157:in `call'
+  omniauth (1.1.1) lib/omniauth/builder.rb:48:in `call'
+  warden (1.2.1) lib/warden/manager.rb:35:in `block in call'
+  warden (1.2.1) lib/warden/manager.rb:34:in `catch'
+  warden (1.2.1) lib/warden/manager.rb:34:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+  rack (1.4.1) lib/rack/etag.rb:23:in `call'
+  rack (1.4.1) lib/rack/conditionalget.rb:25:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/head.rb:14:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/flash.rb:242:in `call'
+  rack (1.4.1) lib/rack/session/abstract/id.rb:205:in `context'
+  rack (1.4.1) lib/rack/session/abstract/id.rb:200:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/cookies.rb:339:in `call'
+  activerecord (3.2.8) lib/active_record/query_cache.rb:64:in `call'
+  activerecord (3.2.8) lib/active_record/connection_adapters/abstract/connection_pool.rb:473:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `_run__3340351293337783494__call__4388661793234337175__callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `__run_callback'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:385:in `_run_call_callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (3.2.8) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/reloader.rb:65:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/remote_ip.rb:31:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/debug_exceptions.rb:16:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.8) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.8) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.0.1) lib/quiet_assets.rb:20:in `call_with_quiet_assets'
+  actionpack (3.2.8) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.8) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.8) lib/rails/engine.rb:479:in `call'
+  railties (3.2.8) lib/rails/application.rb:223:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.8) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.8) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.8) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.8) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.8) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.5ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.0ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (9.1ms)
+Connecting to database specified by database.yml
+  [1m[36m (79.7ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateSongs (20121103002402)
+Migrating to ActsAsTaggableOnMigration (20121106112927)
+Migrating to AddCoverToSongs (20121108192448)
+Migrating to NewCoverToSongs (20121203205715)
+Migrating to CreatePeople (20121211003643)
+Migrating to CreateAuthorizations (20121211003727)
+Migrating to AddDeviseToUsers (20130102155846)
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (119.6ms)[0m  ALTER TABLE "users" ADD "email" varchar(255) DEFAULT '' NOT NULL
+SQLite3::SQLException: no such table: users: ALTER TABLE "users" ADD "email" varchar(255) DEFAULT '' NOT NULL
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+Connecting to database specified by database.yml
+  [1m[36m (40.5ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateSongs (20121103002402)
+Migrating to ActsAsTaggableOnMigration (20121106112927)
+Migrating to AddCoverToSongs (20121108192448)
+Migrating to NewCoverToSongs (20121203205715)
+Migrating to CreatePeople (20121211003643)
+Migrating to CreateAuthorizations (20121211003727)
+Migrating to AddDeviseToUsers (20130102155846)
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (233.7ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255) DEFAULT '' NOT NULL, "encrypted_password" varchar(255) DEFAULT '' NOT NULL, "reset_password_token" varchar(255), "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar(255), "last_sign_in_ip" varchar(255)) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.3ms)[0m  CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_users_on_email')
+  [1m[36m (0.1ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (0.7ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20130102155846')
+  [1m[36m (310.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (154.8ms)[0m  select sqlite_version(*)
+  [1m[36m (81.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("authorizations")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("people")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("songs")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_taggable_id_and_taggable_type_and_context')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_taggings_on_tag_id')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("tags")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_users_on_reset_password_token')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_users_on_email')[0m
+
+
+Started GET "/users/sign_up" for 109.197.103.47 at 2013-01-02 17:00:45 +0100
+Processing by Devise::RegistrationsController#new as HTML
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/devise-2.1.2/app/views/devise/shared/_links.erb (1.7ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/devise-2.1.2/app/views/devise/registrations/new.html.erb within layouts/application (7.1ms)
+  Rendered shared/_navbar.html.erb (0.4ms)
+Completed 200 OK in 284ms (Views: 124.1ms | ActiveRecord: 128.7ms)
+
+
+Started POST "/users" for 109.197.103.47 at 2013-01-02 17:01:00 +0100
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"W6Jr1UFEmdMHX1AKppXe9B532aodssJ83Aj9Al7Vukg=", "user"=>{"email"=>"magda1231@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (80.6ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'magda1231@gmail.com' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'magda1231@gmail.com' LIMIT 1[0m
+  [1m[35m (38.7ms)[0m  rollback transaction
+Completed 500 Internal Server Error in 250ms
+
+NoMethodError (undefined method `name' for #<User:0x000000056eb298>):
+  activemodel (3.2.8) lib/active_model/attribute_methods.rb:407:in `method_missing'
+  activerecord (3.2.8) lib/active_record/attribute_methods.rb:149:in `method_missing'
+  activemodel (3.2.8) lib/active_model/errors.rb:254:in `block in add_on_blank'
+  activemodel (3.2.8) lib/active_model/errors.rb:253:in `each'
+  activemodel (3.2.8) lib/active_model/errors.rb:253:in `add_on_blank'
+  activemodel (3.2.8) lib/active_model/validations/presence.rb:8:in `validate'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:310:in `_callback_before_401'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:550:in `_run__4066825587526681506__validate__4388661793234337175__callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `__run_callback'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:385:in `_run_validate_callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  activemodel (3.2.8) lib/active_model/validations.rb:227:in `run_validations!'
+  activemodel (3.2.8) lib/active_model/validations/callbacks.rb:53:in `block in run_validations!'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:425:in `_run__4066825587526681506__validation__4388661793234337175__callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `__run_callback'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:385:in `_run_validation_callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  activemodel (3.2.8) lib/active_model/validations/callbacks.rb:53:in `run_validations!'
+  activemodel (3.2.8) lib/active_model/validations.rb:194:in `valid?'
+  activerecord (3.2.8) lib/active_record/validations.rb:69:in `valid?'
+  activerecord (3.2.8) lib/active_record/validations.rb:77:in `perform_validations'
+  activerecord (3.2.8) lib/active_record/validations.rb:50:in `save'
+  activerecord (3.2.8) lib/active_record/attribute_methods/dirty.rb:22:in `save'
+  activerecord (3.2.8) lib/active_record/transactions.rb:241:in `block (2 levels) in save'
+  activerecord (3.2.8) lib/active_record/transactions.rb:295:in `block in with_transaction_returning_status'
+  activerecord (3.2.8) lib/active_record/connection_adapters/abstract/database_statements.rb:192:in `transaction'
+  activerecord (3.2.8) lib/active_record/transactions.rb:208:in `transaction'
+  activerecord (3.2.8) lib/active_record/transactions.rb:293:in `with_transaction_returning_status'
+  activerecord (3.2.8) lib/active_record/transactions.rb:241:in `block in save'
+  activerecord (3.2.8) lib/active_record/transactions.rb:252:in `rollback_active_record_state!'
+  activerecord (3.2.8) lib/active_record/transactions.rb:240:in `save'
+  devise (2.1.2) app/controllers/devise/registrations_controller.rb:15:in `create'
+  actionpack (3.2.8) lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+  actionpack (3.2.8) lib/abstract_controller/base.rb:167:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (3.2.8) lib/abstract_controller/callbacks.rb:18:in `block in process_action'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:436:in `_run__4160682482722968996__process_action__2099362251709740925__callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `__run_callback'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:385:in `_run_process_action_callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (3.2.8) lib/abstract_controller/callbacks.rb:17:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/instrumentation.rb:30:in `block in process_action'
+  activesupport (3.2.8) lib/active_support/notifications.rb:123:in `block in instrument'
+  activesupport (3.2.8) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (3.2.8) lib/active_support/notifications.rb:123:in `instrument'
+  actionpack (3.2.8) lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+  actionpack (3.2.8) lib/action_controller/metal/params_wrapper.rb:207:in `process_action'
+  activerecord (3.2.8) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (3.2.8) lib/abstract_controller/base.rb:121:in `process'
+  actionpack (3.2.8) lib/abstract_controller/rendering.rb:45:in `process'
+  actionpack (3.2.8) lib/action_controller/metal.rb:203:in `dispatch'
+  actionpack (3.2.8) lib/action_controller/metal/rack_delegation.rb:14:in `dispatch'
+  actionpack (3.2.8) lib/action_controller/metal.rb:246:in `block in action'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:73:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:73:in `dispatch'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:36:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/mapper.rb:42:in `call'
+  journey (1.0.4) lib/journey/router.rb:68:in `block in call'
+  journey (1.0.4) lib/journey/router.rb:56:in `each'
+  journey (1.0.4) lib/journey/router.rb:56:in `call'
+  actionpack (3.2.8) lib/action_dispatch/routing/route_set.rb:600:in `call'
+  omniauth (1.1.1) lib/omniauth/strategy.rb:177:in `call!'
+  omniauth (1.1.1) lib/omniauth/strategy.rb:157:in `call'
+  omniauth (1.1.1) lib/omniauth/builder.rb:48:in `call'
+  warden (1.2.1) lib/warden/manager.rb:35:in `block in call'
+  warden (1.2.1) lib/warden/manager.rb:34:in `catch'
+  warden (1.2.1) lib/warden/manager.rb:34:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+  rack (1.4.1) lib/rack/etag.rb:23:in `call'
+  rack (1.4.1) lib/rack/conditionalget.rb:35:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/head.rb:14:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/flash.rb:242:in `call'
+  rack (1.4.1) lib/rack/session/abstract/id.rb:205:in `context'
+  rack (1.4.1) lib/rack/session/abstract/id.rb:200:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/cookies.rb:339:in `call'
+  activerecord (3.2.8) lib/active_record/query_cache.rb:64:in `call'
+  activerecord (3.2.8) lib/active_record/connection_adapters/abstract/connection_pool.rb:473:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `_run__3340351293337783494__call__4388661793234337175__callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:405:in `__run_callback'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:385:in `_run_call_callbacks'
+  activesupport (3.2.8) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (3.2.8) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/reloader.rb:65:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/remote_ip.rb:31:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/debug_exceptions.rb:16:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.8) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.8) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.0.1) lib/quiet_assets.rb:20:in `call_with_quiet_assets'
+  actionpack (3.2.8) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.8) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.8) lib/rails/engine.rb:479:in `call'
+  railties (3.2.8) lib/rails/application.rb:223:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.8) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.8) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.8) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.8) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.8) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (6.7ms)
+Connecting to database specified by database.yml
+  [1m[36m (39.3ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (40.0ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (40.6ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to AddDeviseToUsers (20130102155846)
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (17.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (79.6ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (40.5ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to AddDeviseToUsers (20130102155846)
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (241.0ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (316.2ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (79.4ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateSongs (20121103002402)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (201.1ms)[0m  [1mCREATE TABLE "songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121103002402')
+  [1m[36m (235.9ms)[0m  [1mcommit transaction[0m
+Migrating to ActsAsTaggableOnMigration (20121106112927)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (158.9ms)[0m  [1mCREATE TABLE "tags" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255)) [0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "taggings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "tag_id" integer, "taggable_id" integer, "taggable_type" varchar(255), "tagger_id" integer, "tagger_type" varchar(255), "context" varchar(128), "created_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.2ms)[0m  CREATE INDEX "index_taggings_on_tag_id" ON "taggings" ("tag_id")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_tag_id')
+  [1m[36m (0.2ms)[0m  [1mCREATE INDEX "index_taggings_on_taggable_id_and_taggable_type_and_context" ON "taggings" ("taggable_id", "taggable_type", "context")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121106112927')
+  [1m[36m (233.2ms)[0m  [1mcommit transaction[0m
+Migrating to AddCoverToSongs (20121108192448)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (199.4ms)[0m  [1mALTER TABLE "songs" ADD "cover" varchar(255)[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121108192448')
+  [1m[36m (175.4ms)[0m  [1mcommit transaction[0m
+Migrating to NewCoverToSongs (20121203205715)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (198.8ms)[0m  [1mALTER TABLE "songs" ADD "cover_file_name" varchar(255)[0m
+  [1m[35m (0.2ms)[0m  ALTER TABLE "songs" ADD "cover_content_type" varchar(255)
+  [1m[36m (0.2ms)[0m  [1mALTER TABLE "songs" ADD "cover_file_size" integer[0m
+  [1m[35m (0.2ms)[0m  ALTER TABLE "songs" ADD "cover_updated_at" datetime
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121203205715')[0m
+  [1m[35m (234.0ms)[0m  commit transaction
+Migrating to CreatePeople (20121211003643)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (158.9ms)[0m  CREATE TABLE "people" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121211003643')[0m
+  [1m[35m (275.3ms)[0m  commit transaction
+Migrating to CreateAuthorizations (20121211003727)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (278.7ms)[0m  CREATE TABLE "authorizations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "provider" varchar(255), "uid" varchar(255), "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121211003727')[0m
+  [1m[35m (199.1ms)[0m  commit transaction
+Migrating to AddDeviseToUsers (20130102155846)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (269.9ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255) DEFAULT '' NOT NULL, "encrypted_password" varchar(255) DEFAULT '' NOT NULL, "reset_password_token" varchar(255), "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar(255), "last_sign_in_ip" varchar(255)) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.3ms)[0m  CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_users_on_email')
+  [1m[36m (0.2ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20130102155846')
+  [1m[36m (276.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (153.9ms)[0m  select sqlite_version(*)
+  [1m[36m (86.3ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("authorizations")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("people")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("songs")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_taggable_id_and_taggable_type_and_context')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_taggings_on_tag_id')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("tags")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_users_on_reset_password_token')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_users_on_email')[0m
+Connecting to database specified by database.yml
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (245.2ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (319.5ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (119.6ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateSongs (20121103002402)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (199.1ms)[0m  [1mCREATE TABLE "songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121103002402')
+  [1m[36m (232.9ms)[0m  [1mcommit transaction[0m
+Migrating to ActsAsTaggableOnMigration (20121106112927)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (42.0ms)[0m  [1mCREATE TABLE "tags" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255)) [0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "taggings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "tag_id" integer, "taggable_id" integer, "taggable_type" varchar(255), "tagger_id" integer, "tagger_type" varchar(255), "context" varchar(128), "created_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.1ms)[0m  CREATE INDEX "index_taggings_on_tag_id" ON "taggings" ("tag_id")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_tag_id')
+  [1m[36m (0.1ms)[0m  [1mCREATE INDEX "index_taggings_on_taggable_id_and_taggable_type_and_context" ON "taggings" ("taggable_id", "taggable_type", "context")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121106112927')
+  [1m[36m (234.3ms)[0m  [1mcommit transaction[0m
+Migrating to AddCoverToSongs (20121108192448)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (199.6ms)[0m  [1mALTER TABLE "songs" ADD "cover" varchar(255)[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121108192448')
+  [1m[36m (273.0ms)[0m  [1mcommit transaction[0m
+Migrating to NewCoverToSongs (20121203205715)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (199.9ms)[0m  [1mALTER TABLE "songs" ADD "cover_file_name" varchar(255)[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "songs" ADD "cover_content_type" varchar(255)
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "songs" ADD "cover_file_size" integer[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "songs" ADD "cover_updated_at" datetime
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121203205715')[0m
+  [1m[35m (275.2ms)[0m  commit transaction
+Migrating to CreatePeople (20121211003643)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (239.2ms)[0m  CREATE TABLE "people" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121211003643')[0m
+  [1m[35m (319.3ms)[0m  commit transaction
+Migrating to CreateAuthorizations (20121211003727)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (238.7ms)[0m  CREATE TABLE "authorizations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "provider" varchar(255), "uid" varchar(255), "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121211003727')[0m
+  [1m[35m (279.4ms)[0m  commit transaction
+Migrating to AddDeviseToUsers (20130102155846)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (210.7ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255) DEFAULT '' NOT NULL, "encrypted_password" varchar(255) DEFAULT '' NOT NULL, "reset_password_token" varchar(255), "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar(255), "last_sign_in_ip" varchar(255)) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.3ms)[0m  CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_users_on_email')
+  [1m[36m (0.1ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20130102155846')
+  [1m[36m (233.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (212.1ms)[0m  select sqlite_version(*)
+  [1m[36m (119.8ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("authorizations")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("people")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("songs")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_taggable_id_and_taggable_type_and_context')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_taggings_on_tag_id')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("tags")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_users_on_reset_password_token')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_users_on_email')[0m
+Connecting to database specified by database.yml
+  [1m[36m (39.4ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (40.0ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (41.7ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to AddDeviseToUsers (20130102155846)
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (79.5ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateSongs (20121103002402)
+Migrating to ActsAsTaggableOnMigration (20121106112927)
+Migrating to AddCoverToSongs (20121108192448)
+Migrating to NewCoverToSongs (20121203205715)
+Migrating to CreatePeople (20121211003643)
+Migrating to CreateAuthorizations (20121211003727)
+Migrating to AddDeviseToUsers (20130102155846)
+  [1m[35m (115.3ms)[0m  select sqlite_version(*)
+  [1m[36m (39.8ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("authorizations")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("people")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("songs")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_taggable_id_and_taggable_type_and_context')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_taggings_on_tag_id')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("tags")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_users_on_reset_password_token')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_users_on_email')[0m
+Connecting to database specified by database.yml
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (238.2ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (156.8ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (79.6ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateSongs (20121103002402)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (198.7ms)[0m  [1mCREATE TABLE "songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121103002402')
+  [1m[36m (236.2ms)[0m  [1mcommit transaction[0m
+Migrating to ActsAsTaggableOnMigration (20121106112927)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (159.4ms)[0m  [1mCREATE TABLE "tags" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255)) [0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "taggings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "tag_id" integer, "taggable_id" integer, "taggable_type" varchar(255), "tagger_id" integer, "tagger_type" varchar(255), "context" varchar(128), "created_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.1ms)[0m  CREATE INDEX "index_taggings_on_tag_id" ON "taggings" ("tag_id")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_tag_id')
+  [1m[36m (0.1ms)[0m  [1mCREATE INDEX "index_taggings_on_taggable_id_and_taggable_type_and_context" ON "taggings" ("taggable_id", "taggable_type", "context")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121106112927')
+  [1m[36m (237.6ms)[0m  [1mcommit transaction[0m
+Migrating to AddCoverToSongs (20121108192448)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (120.3ms)[0m  [1mALTER TABLE "songs" ADD "cover" varchar(255)[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121108192448')
+  [1m[36m (120.7ms)[0m  [1mcommit transaction[0m
+Migrating to NewCoverToSongs (20121203205715)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (80.2ms)[0m  [1mALTER TABLE "songs" ADD "cover_file_name" varchar(255)[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "songs" ADD "cover_content_type" varchar(255)
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "songs" ADD "cover_file_size" integer[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "songs" ADD "cover_updated_at" datetime
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121203205715')[0m
+  [1m[35m (80.4ms)[0m  commit transaction
+Migrating to CreatePeople (20121211003643)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (194.9ms)[0m  CREATE TABLE "people" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121211003643')[0m
+  [1m[35m (312.8ms)[0m  commit transaction
+Migrating to CreateAuthorizations (20121211003727)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (127.2ms)[0m  CREATE TABLE "authorizations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "provider" varchar(255), "uid" varchar(255), "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121211003727')[0m
+  [1m[35m (195.3ms)[0m  commit transaction
+Migrating to AddDeviseToUsers (20130102155846)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (129.3ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255) DEFAULT '' NOT NULL, "encrypted_password" varchar(255) DEFAULT '' NOT NULL, "reset_password_token" varchar(255), "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar(255), "last_sign_in_ip" varchar(255)) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.3ms)[0m  CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_users_on_email')
+  [1m[36m (0.1ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20130102155846')
+  [1m[36m (231.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (117.8ms)[0m  select sqlite_version(*)
+  [1m[36m (39.7ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("authorizations")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("people")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("songs")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_taggable_id_and_taggable_type_and_context')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_taggings_on_tag_id')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("tags")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_users_on_reset_password_token')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_users_on_email')[0m
+Connecting to database specified by database.yml
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (241.7ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (316.3ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (79.5ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateSongs (20121103002402)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (198.7ms)[0m  [1mCREATE TABLE "songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121103002402')
+  [1m[36m (239.6ms)[0m  [1mcommit transaction[0m
+Migrating to ActsAsTaggableOnMigration (20121106112927)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (43.0ms)[0m  [1mCREATE TABLE "tags" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255)) [0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "taggings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "tag_id" integer, "taggable_id" integer, "taggable_type" varchar(255), "tagger_id" integer, "tagger_type" varchar(255), "context" varchar(128), "created_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.1ms)[0m  CREATE INDEX "index_taggings_on_tag_id" ON "taggings" ("tag_id")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_tag_id')
+  [1m[36m (0.1ms)[0m  [1mCREATE INDEX "index_taggings_on_taggable_id_and_taggable_type_and_context" ON "taggings" ("taggable_id", "taggable_type", "context")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121106112927')
+  [1m[36m (153.5ms)[0m  [1mcommit transaction[0m
+Migrating to AddCoverToSongs (20121108192448)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (133.1ms)[0m  [1mALTER TABLE "songs" ADD "cover" varchar(255)[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121108192448')
+  [1m[36m (272.7ms)[0m  [1mcommit transaction[0m
+Migrating to NewCoverToSongs (20121203205715)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (199.5ms)[0m  [1mALTER TABLE "songs" ADD "cover_file_name" varchar(255)[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "songs" ADD "cover_content_type" varchar(255)
+  [1m[36m (0.2ms)[0m  [1mALTER TABLE "songs" ADD "cover_file_size" integer[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "songs" ADD "cover_updated_at" datetime
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121203205715')[0m
+  [1m[35m (235.3ms)[0m  commit transaction
+Migrating to CreatePeople (20121211003643)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (199.4ms)[0m  CREATE TABLE "people" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121211003643')[0m
+  [1m[35m (239.4ms)[0m  commit transaction
+Migrating to CreateAuthorizations (20121211003727)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (79.6ms)[0m  CREATE TABLE "authorizations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "provider" varchar(255), "uid" varchar(255), "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121211003727')[0m
+  [1m[35m (235.8ms)[0m  commit transaction
+Migrating to AddDeviseToUsers (20130102155846)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (235.9ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255) DEFAULT '' NOT NULL, "encrypted_password" varchar(255) DEFAULT '' NOT NULL, "name" varchar(255), "reset_password_token" varchar(255), "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar(255), "last_sign_in_ip" varchar(255)) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.2ms)[0m  CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_users_on_email')
+  [1m[36m (0.1ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20130102155846')
+  [1m[36m (281.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (153.7ms)[0m  select sqlite_version(*)
+  [1m[36m (39.8ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("authorizations")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("people")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("songs")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_taggable_id_and_taggable_type_and_context')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_taggings_on_tag_id')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("tags")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_users_on_reset_password_token')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_users_on_email')[0m
+
+
+Started GET "/" for 109.197.103.47 at 2013-01-02 17:15:12 +0100
+Processing by SongsController#index as HTML
+  [1m[36mSong Load (40.1ms)[0m  [1mSELECT "songs".* FROM "songs" [0m
+  [1m[35mActsAsTaggableOn::Tag Load (42.1ms)[0m  SELECT tags.*, taggings.tags_count AS count FROM "tags" JOIN (SELECT taggings.tag_id, COUNT(taggings.tag_id) AS tags_count FROM "taggings" INNER JOIN songs ON songs.id = taggings.taggable_id WHERE (taggings.taggable_type = 'Song' AND taggings.context = 'tags') AND (taggings.taggable_id IN(SELECT songs.id FROM "songs" )) GROUP BY taggings.tag_id HAVING COUNT(taggings.tag_id) > 0) AS taggings ON taggings.tag_id = tags.id
+  Rendered songs/index.html.erb within layouts/application (47.1ms)
+  Rendered shared/_navbar.html.erb (15.9ms)
+Completed 200 OK in 123ms (Views: 39.5ms | ActiveRecord: 82.2ms)
+
+
+Started GET "/users/sign_up" for 109.197.103.47 at 2013-01-02 17:15:15 +0100
+Processing by Devise::RegistrationsController#new as HTML
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/devise-2.1.2/app/views/devise/shared/_links.erb (0.5ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/devise-2.1.2/app/views/devise/registrations/new.html.erb within layouts/application (5.6ms)
+  Rendered shared/_navbar.html.erb (0.4ms)
+Completed 200 OK in 203ms (Views: 52.0ms | ActiveRecord: 132.0ms)
+
+
+Started POST "/users" for 109.197.103.47 at 2013-01-02 17:15:20 +0100
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"W6Jr1UFEmdMHX1AKppXe9B532aodssJ83Aj9Al7Vukg=", "user"=>{"email"=>"magda1231@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (78.3ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'magda1231@gmail.com' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'magda1231@gmail.com' LIMIT 1[0m
+  [1m[35m (36.6ms)[0m  rollback transaction
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/devise-2.1.2/app/views/devise/shared/_links.erb (0.5ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/devise-2.1.2/app/views/devise/registrations/new.html.erb within layouts/application (5.9ms)
+  Rendered shared/_navbar.html.erb (0.4ms)
+Completed 200 OK in 375ms (Views: 77.6ms | ActiveRecord: 0.0ms)
+Connecting to database specified by database.yml
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (205.0ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (323.2ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (119.5ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateSongs (20121103002402)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (199.2ms)[0m  [1mCREATE TABLE "songs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "album" varchar(255), "year" integer, "length" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121103002402')
+  [1m[36m (279.3ms)[0m  [1mcommit transaction[0m
+Migrating to ActsAsTaggableOnMigration (20121106112927)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (239.8ms)[0m  [1mCREATE TABLE "tags" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255)) [0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "taggings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "tag_id" integer, "taggable_id" integer, "taggable_type" varchar(255), "tagger_id" integer, "tagger_type" varchar(255), "context" varchar(128), "created_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.1ms)[0m  CREATE INDEX "index_taggings_on_tag_id" ON "taggings" ("tag_id")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("taggings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_taggings_on_tag_id')
+  [1m[36m (0.1ms)[0m  [1mCREATE INDEX "index_taggings_on_taggable_id_and_taggable_type_and_context" ON "taggings" ("taggable_id", "taggable_type", "context")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121106112927')
+  [1m[36m (277.6ms)[0m  [1mcommit transaction[0m
+Migrating to AddCoverToSongs (20121108192448)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (279.7ms)[0m  [1mALTER TABLE "songs" ADD "cover" varchar(255)[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20121108192448')
+  [1m[36m (279.4ms)[0m  [1mcommit transaction[0m
+Migrating to NewCoverToSongs (20121203205715)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (177.1ms)[0m  [1mALTER TABLE "songs" ADD "cover_file_name" varchar(255)[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "songs" ADD "cover_content_type" varchar(255)
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "songs" ADD "cover_file_size" integer[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "songs" ADD "cover_updated_at" datetime
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121203205715')[0m
+  [1m[35m (227.8ms)[0m  commit transaction
+Migrating to CreatePeople (20121211003643)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (195.6ms)[0m  CREATE TABLE "people" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121211003643')[0m
+  [1m[35m (246.2ms)[0m  commit transaction
+Migrating to CreateAuthorizations (20121211003727)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (46.6ms)[0m  CREATE TABLE "authorizations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "provider" varchar(255), "uid" varchar(255), "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20121211003727')[0m
+  [1m[35m (112.7ms)[0m  commit transaction
+Migrating to AddDeviseToUsers (20130102155846)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (198.3ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255) DEFAULT '' NOT NULL, "encrypted_password" varchar(255) DEFAULT '' NOT NULL, "reset_password_token" varchar(255), "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar(255), "last_sign_in_ip" varchar(255)) 
+  [1m[36m (79.7ms)[0m  [1mrollback transaction[0m
+
+
+Started GET "/users" for 109.197.103.47 at 2013-01-02 17:18:52 +0100
+
+ActionController::RoutingError (No route matches [GET] "/users"):
+  actionpack (3.2.8) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.8) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.8) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.0.1) lib/quiet_assets.rb:20:in `call_with_quiet_assets'
+  actionpack (3.2.8) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.8) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.8) lib/rails/engine.rb:479:in `call'
+  railties (3.2.8) lib/rails/application.rb:223:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.8) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.8) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.8) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.8) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.8) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)
+
+
+Started GET "/users" for 109.197.103.47 at 2013-01-02 17:18:54 +0100
+
+ActionController::RoutingError (No route matches [GET] "/users"):
+  actionpack (3.2.8) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.8) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.8) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.0.1) lib/quiet_assets.rb:20:in `call_with_quiet_assets'
+  actionpack (3.2.8) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.8) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.8) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.8) lib/rails/engine.rb:479:in `call'
+  railties (3.2.8) lib/rails/application.rb:223:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.8) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.8) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.8) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.8) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.8) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.2.8/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)
+
+
+Started GET "/" for 109.197.103.47 at 2013-01-02 17:18:58 +0100
+Processing by SongsController#index as HTML
+  [1m[36mSong Load (181.4ms)[0m  [1mSELECT "songs".* FROM "songs" [0m
+  [1m[35mActsAsTaggableOn::Tag Load (40.3ms)[0m  SELECT tags.*, taggings.tags_count AS count FROM "tags" JOIN (SELECT taggings.tag_id, COUNT(taggings.tag_id) AS tags_count FROM "taggings" INNER JOIN songs ON songs.id = taggings.taggable_id WHERE (taggings.taggable_type = 'Song' AND taggings.context = 'tags') AND (taggings.taggable_id IN(SELECT songs.id FROM "songs" )) GROUP BY taggings.tag_id HAVING COUNT(taggings.tag_id) > 0) AS taggings ON taggings.tag_id = tags.id
+  Rendered songs/index.html.erb within layouts/application (43.9ms)
+  Rendered shared/_navbar.html.erb (0.4ms)
+Completed 200 OK in 246ms (Views: 23.6ms | ActiveRecord: 221.7ms)
+
+
+Started GET "/users/sign_up" for 109.197.103.47 at 2013-01-02 17:19:00 +0100
+Processing by Devise::RegistrationsController#new as HTML
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/devise-2.1.2/app/views/devise/shared/_links.erb (0.4ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/devise-2.1.2/app/views/devise/registrations/new.html.erb within layouts/application (3.8ms)
+  Rendered shared/_navbar.html.erb (0.3ms)
+Completed 200 OK in 23ms (Views: 21.9ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users" for 109.197.103.47 at 2013-01-02 17:19:06 +0100
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"W6Jr1UFEmdMHX1AKppXe9B532aodssJ83Aj9Al7Vukg=", "user"=>{"email"=>"magda1231@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (79.7ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'magda1231@gmail.com' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'magda1231@gmail.com' LIMIT 1[0m
+  [1m[35m (35.1ms)[0m  rollback transaction
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/devise-2.1.2/app/views/devise/shared/_links.erb (0.4ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/devise-2.1.2/app/views/devise/registrations/new.html.erb within layouts/application (4.9ms)
+  Rendered shared/_navbar.html.erb (0.3ms)
+Completed 200 OK in 278ms (Views: 55.3ms | ActiveRecord: 0.0ms)

@@ -8,9 +8,27 @@
         Radio Ruby   
      <ul class="nav pull-right">
      <li>   <%= link_to "Connect With Facebook", "/auth/facebook" %> </li>
- 
+       
      <li>   <a class="brand" href="/users/sign_up">Rejestracja</a></li>
-     <li>   <a class="brand" href="/users/sign_in">Logowanie</a></li>
+    
+     <li>    <div id="login_logout">
+<% unless user_signed_in? %>
+  <li><%= link_to "Sign in","/users/sign_in" %></li>
+<% else %>
+  <li>
+  <%= current_user.email %></li> <%= link_to 'Sign Out', "/logout" %>
+
+<% end %>
+<div id="man_nav">
+  <% if current_man %>
+    Signed in as <strong><%= current_man.name %></strong>!
+    <%= link_to "Sign out", signout_path, id: "sign_out" %>
+  <% else %>
+    <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
+  <% end %>
+</div>
+
+    
       </ul> 
        <%= link_to "google", "https://www.google.pl/" %>
     </div>
